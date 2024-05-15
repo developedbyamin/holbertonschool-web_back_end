@@ -32,6 +32,10 @@ class Cache:
         key = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
+
+    """
+    Cache class to store data in Redis.
+    """
     
     def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
         if not self._redis.exists(key):
