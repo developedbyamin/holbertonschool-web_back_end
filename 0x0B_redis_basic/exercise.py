@@ -41,7 +41,6 @@ class Cache:
             return fn(value)
         return value
 
-
         def get_str(self,key: str) -> Union[str, None]:
             return self.get(key, fn=lambda d: d.dcode("utf-8"))
     
