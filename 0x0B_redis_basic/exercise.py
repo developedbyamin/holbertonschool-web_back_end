@@ -36,7 +36,6 @@ class Cache:
     """
     Cache class to store data in Redis.
     """
-    
     def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
         if not self._redis.exists(key):
             return None:
