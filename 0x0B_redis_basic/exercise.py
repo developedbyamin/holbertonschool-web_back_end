@@ -36,8 +36,14 @@ class Cache:
     def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
         if not self._redis.exists(key):
             return None:
-        value = self._redis()
+        value = self._redis.get(key)
+        if fn:
+            return fn(value)
+        return value
 
 
-        def get_str():
-                
+        def get_str(self,key: str) -> Union[str, None]:
+            return self.get(key, fn=lambda d: d.dcode("utf-8"))
+    
+        def get_int(self, key: str) -> Union[int, None]:
+        return self.get(key, fn=int)                
