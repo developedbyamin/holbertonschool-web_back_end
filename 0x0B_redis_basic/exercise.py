@@ -1,75 +1,96 @@
 #!/usr/bin/env python3
-
+""" redis module
 """
-Cache module to store data in Redis.
-"""
-
 import redis
-import uuid
-from typing import Union
-import functools import wraps
+from uuid import uuid4
+from typing import Union, Optional, Callable
+from functools import wraps
+
+
+UnionOfTypes = Union[str, bytes, int, float]
+
 
 def count_calls(method: Callable) -> Callable:
-    """
-    Decorator function to count method calls.
+    """count number of calls
+        Callable: [method] """
+    key = method.__qualname__
 
-    Args:
-        method: The method to be decorated.
-
-    Returns:
-        Callable: The wrapped method with call counting functionality.
-    """
     @wraps(method)
-    def wrapper(self, *args, **kwargs):
-        """
-        Wrapper function to increment call count and call the original method.
-
-        Args:
-            self: The Cache instance.
-            *args: Positional arguments passed to the method.
-            **kwargs: Keyword arguments passed to the method.
-
-        Returns:
-            Any: The result of the original method call.
-        """
-        key = method.__qualname__
+    def wrapper(self, *args, **kwds):
+        """wrapper of decorator"""
         self._redis.incr(key)
-        return method(self, *args, **kwargs)
+        return method(self, *args, **kwds)
     return wrapper
 
+
+def call_history(method: Callable) -> Callable:
+    ''' decorator to store the history of inputs and
+        outputs for a particular function.
+    '''
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """wrapper of decorator"""
+        input = str(args)
+        self._redis.rpush(method.__qualname__ + ":inputs", input)
+
+        output = str(method(self, *args, **kwargs))
+        self._redis.rpush(method.__qualname__ + ":outputs", output)
+        return output
+    return wrapper
+
+
+def replay(fn: Callable):
+    """Display the history of calls of a particular function"""
+    r = redis.Redis()
+    f_name = fn.__qualname__
+    n_calls = r.get(f_name)
+    try:
+        n_calls = n_calls.decode('utf-8')
+    except Exception:
+        n_calls = 0
+    print(f'{f_name} was called {n_calls} times:')
+
+    ins = r.lrange(f_name + ":inputs", 0, -1)
+    outs = r.lrange(f_name + ":outputs", 0, -1)
+
+    for i, o in zip(ins, outs):
+        try:
+            i = i.decode('utf-8')
+        except Exception:
+            i = ""
+        try:
+            o = o.decode('utf-8')
+        except Exception:
+            o = ""
+
+        print(f'{f_name}(*{i}) -> {o}')
+
+
 class Cache:
+    """ Cache redis class
     """
-    Cache class to store data in Redis.
-    """
-    def __init__(self) -> None:
-        """
-        Initialize the Cache instance with a Redis client.
+
+    def __init__(self):
+        """ constructor for redis model
         """
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @call_history
     @count_calls
-    def store(self, data: Union[str, bytes, int, float]) -> str:
-        """
-        Store data in Redis using a randomly generated key.
+    def store(self, data: UnionOfTypes) -> str:
+        """store data into redis cache"""
+        key = str(uuid4())
 
-        Args:
-            data: The data to be stored. Can be str, bytes, int, or float.
-
-        Returns:
-            str: The randomly generated key used for storing the data in Redis.
-        """
-        key = str(uuid.uuid4())
-        self._redis.set(key, data)
+        self._redis.mset({key: data})
         return key
 
     def get(self, key: str, fn: Optional[Callable] = None)\
             -> UnionOfTypes:
         """get key from redis"""
-        if data is None:
-            return None
         if fn:
-            return fn(data)
+            return fn(self._redis.get(key))
+        data = self._redis.get(key)
         return data
 
     def get_str(self, string: bytes) -> str:
@@ -78,4 +99,5 @@ class Cache:
 
     def get_int(self, number: int) -> int:
         """ get int value"""
-        return int(number)            
+        result = 0 * 256 + int(number)
+        return result
