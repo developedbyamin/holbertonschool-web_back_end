@@ -11,10 +11,27 @@ import functools import wraps
 
 def count_calls(method: Callable) -> Callable:
     """
-    This function counts how many times Cache class called
+    Decorator function to count method calls.
+
+    Args:
+        method: The method to be decorated.
+
+    Returns:
+        Callable: The wrapped method with call counting functionality.
     """
     @wraps(method)
     def wrapper(self, *args, **kwargs):
+        """
+        Wrapper function to increment call count and call the original method.
+
+        Args:
+            self: The Cache instance.
+            *args: Positional arguments passed to the method.
+            **kwargs: Keyword arguments passed to the method.
+
+        Returns:
+            Any: The result of the original method call.
+        """
         key = method.__qualname__
         self._redis.incr(key)
         return method(self, *args, **kwargs)
