@@ -7,6 +7,15 @@ Cache module to store data in Redis.
 import redis
 import uuid
 from typing import Union
+import functools import wraps
+
+def count_calls(method: Callable) -> Callable:
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        key = method.__qualname__
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
+    return wrapper
 
 class Cache:
     """
@@ -19,6 +28,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Store data in Redis using a randomly generated key.
@@ -33,8 +43,9 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, None]:
-        data = self._redis.get(key)
+    def get(self, key: str, fn: Optional[Callable] = None)\
+            -> UnionOfTypes:
+        """get key from redis"""
         if data is None:
             return None
         if fn:
@@ -42,7 +53,9 @@ class Cache:
         return data
 
     def get_str(self, string: bytes) -> str:
+        """ get a string """
         return string.decode("utf-8")
 
     def get_int(self, number: int) -> int:
-        return int(number)
+        """ get int value"""
+        return int(number)            
