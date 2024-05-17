@@ -10,6 +10,9 @@ from typing import Union
 import functools import wraps
 
 def count_calls(method: Callable) -> Callable:
+    """
+    This function counts how many times Cache class called
+    """
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         key = method.__qualname__
