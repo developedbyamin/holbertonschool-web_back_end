@@ -8,3 +8,4 @@ WHERE
         OR
     last_meeting < ADDDATE(CURDATE(), interval -1 MONTH)
     );
+
