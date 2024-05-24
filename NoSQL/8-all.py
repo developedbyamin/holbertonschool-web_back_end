@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-""" List all documents in Python  """
+'''Python function that lists all documents in a collection
+'''
 from pymongo import MongoClient
 
 
