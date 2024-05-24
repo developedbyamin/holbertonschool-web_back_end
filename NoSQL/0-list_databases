@@ -1,5 +1,1 @@
-#!/bin/bash
-
-# Start mongosh and execute 'show databases' command
-
-mongosh --quiet --eval "show databases"
+show dbs
