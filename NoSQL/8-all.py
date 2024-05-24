@@ -4,7 +4,7 @@
 from pymongo import MongoClient
 
 
-cliend = MongoClient('localhost', 27017)
+client = MongoClient('localhost', 27017)
 
 def list_all(mongo_collection):
     ''' List all documents
