@@ -1,2 +1,2 @@
-// how to create database
-use mydatabase
+// Create database my_db
+use my_db
