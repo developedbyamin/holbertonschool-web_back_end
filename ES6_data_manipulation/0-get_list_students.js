@@ -1,19 +1,13 @@
-class Student {
-  constructor(id, firstName, location) {
-    this.id = id;
-    this.firstName = firstName;
-    this.location = location;
-  }
-}
+// Get List Students
 
-const students = [
-  new Student(1, 'Guillaume', 'San Francisco'),
-  new Student(1, 'James', 'Columbia'),
-  new Student(1, 'Serena', 'San Francisco'),
-];
-
-function getListStudents() {
-  console.log(students);
-}
-
-export default getListStudents;
+const getListStudents = () => {
+    const students = [
+      { id: 1, firstName: 'Guillaume', location: 'San Francisco' },
+      { id: 2, firstName: 'James', location: 'Columbia' },
+      { id: 5, firstName: 'Serena', location: 'San Francisco' },
+    ];
+  
+    return students;
+  };
+  
+  export default getListStudents;
