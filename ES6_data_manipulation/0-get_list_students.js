@@ -10,10 +10,10 @@ const students = [
     new Student(1, 'Guillaume', 'San Francisco'),
     new Student(1, 'James', 'Columbia'),
     new Student(1, 'Serena', 'San Francisco'),
-];
+];  
 
-function getListStudent(){
+function getListStudents(){
     console.log(students);
 }
 
-export default getListStudent;
+export default getListStudents;
