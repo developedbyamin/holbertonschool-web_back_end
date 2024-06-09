@@ -12,8 +12,8 @@ const students = [
     new Student(1, 'Serena', 'San Francisco'),
 ];
 
-function getListStudents(){
+function getListStudent(){
     console.log(students);
 }
 
-export default getListStudents;
+export default getListStudent;
