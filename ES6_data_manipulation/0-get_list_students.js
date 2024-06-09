@@ -13,7 +13,7 @@ const students = [
 ];  
 
 function getListStudents(){
-    console.log(students);
+    return students;
 }
 
 export default getListStudents;
