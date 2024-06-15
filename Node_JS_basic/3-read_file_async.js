@@ -1,7 +1,8 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-function countStudents(filePath) {
+function countStudents(filePath1) {
+  const filePath = filePath1;
   const absolutePath = path.resolve(filePath);
 
   return fs.readFile(absolutePath, 'utf8')
@@ -33,10 +34,11 @@ function countStudents(filePath) {
       const csStudentsNamesString = csStudentsNames.join(', ');
       const sweStudentsNamesString = sweStudentsNames.join(', ');
 
-      const dataN = `Number of students: ${totalStudents}\nNumber of students in CS: ${csStudents}. List: ${csStudentsNamesString}\nNumber of students in SWE: ${totalStudents - csStudents}. List: ${sweStudentsNamesString}`;
-      console.log(dataN);
+      console.log(`Number of students: ${totalStudents}`);
+      console.log(`Number of students in CS: ${csStudents}. List: ${csStudentsNamesString}`);
+      console.log(`Number of students in SWE: ${totalStudents - csStudents}. List: ${sweStudentsNamesString}`);
     })
-    .catch(() => {
+    .catch((err) => {
       throw new Error('Cannot load the database');
     });
 }
