@@ -8,6 +8,14 @@ const app = http.createServer((req, res) => {
 
 const PORT = 1245;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
+});
+
+process.on('SIGINT', () => {
+  console.log('Received SIGINT. Shutting down gracefully');
+  server.close(() => {
+    console.log('Server closed. Exiting process');
+    process.exit(0);
+  });
 });
