@@ -1,55 +1,38 @@
 const http = require('http');
-const path = require('path');
-const countStudents = require('./3-read_file_async');
+const countStudents = require('./3-read_file_async'); // Assuming countStudents.js exports the function
 
-const args = process.argv.slice(2);
-
-if (args.length !== 1) {
-  console.log('Usage: node 5-http.js <filename>');
-  process.exit(1);
-}
-
-const filePath = args[0];
-const absolutePath = path.resolve(filePath);
-
+// HTTP Server
 const app = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'text/plain');
 
   if (req.url === '/') {
     res.statusCode = 200;
-    res.end('Hello Holberton School!');
+    res.end('Hello Holberton School!\n');
   } else if (req.url === '/students') {
     res.statusCode = 200;
-    res.write('This is the list of our students\n');
 
-    countStudents(absolutePath)
-      .then((data) => {
-        res.statusCode = 200;
-        res.end(data);
+    // Read CSV file asynchronously
+    const databaseFilename = process.argv[2];
+    countStudents(databaseFilename)
+      .then((result) => {
+        // Send response based on result from countStudents
+        const response = `This is the list of our students\n${result}`;
+        res.end(response);
       })
-      .catch((err) => {
-        console.error('Error fetching student data:', err);
+      .catch((error) => {
         res.statusCode = 500;
-        res.end('Internal Server Error');
+        res.end(`Error: ${error.message}\n`);
       });
   } else {
     res.statusCode = 404;
-    res.end('Not Found');
+    res.end('Not Found\n');
   }
 });
 
-const PORT = 1245;
-const server = app.listen(PORT, () => {
-  // console.log(`Server is listening on port ${PORT}`);
-});
-
-// Handle server shutdown
-process.on('SIGINT', () => {
-  // console.log('Received SIGINT. Shutting down gracefully');
-  server.close(() => {
-    // console.log('Server closed. Exiting process');
-    process.exit(0);
-  });
+// Server listens on port 1245
+const port = 1245;
+app.listen(port, () => {
+  // console.log(`Server running at http://localhost:${port}/`);
 });
 
 module.exports = app;
