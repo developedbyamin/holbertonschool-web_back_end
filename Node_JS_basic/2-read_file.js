@@ -22,6 +22,8 @@ function countStudents(filePath1){
                 sweStudentsNames.push(rows[i][0]);
             }
         }
+        csStudentsNames1 = csStudentsNames.join(' ');
+        sweStudentsNames1 = sweStudentsNames.join(' ');
         process.stdout.write(`Number of students: ${totalStudents}\nNumber of students in CS: 6. List: ${csStudentsNames}\nNumber of students in SWE: ${totalStudents-csStudents} List: ${sweStudentsNames}\n`);
     });
 
