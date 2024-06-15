@@ -11,7 +11,6 @@ if (args.length !== 1) {
 
 const filePath = args[0];
 const absolutePath = path.resolve(filePath);
-console.log(absolutePath);
 
 const app = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'text/plain');
@@ -41,14 +40,14 @@ const app = http.createServer((req, res) => {
 
 const PORT = 1245;
 const server = app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+  // console.log(`Server is listening on port ${PORT}`);
 });
 
 // Handle server shutdown
 process.on('SIGINT', () => {
-  console.log('Received SIGINT. Shutting down gracefully');
+  // console.log('Received SIGINT. Shutting down gracefully');
   server.close(() => {
-    console.log('Server closed. Exiting process');
+    // console.log('Server closed. Exiting process');
     process.exit(0);
   });
 });
