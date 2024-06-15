@@ -7,7 +7,7 @@ async function countStudents(filePath) {
   const absolutePath = path.resolve(filePath);
   try {
     const data = await fs.readFile(absolutePath, 'utf8');
-    const rows = data.split('\n').map(row => row.split(',')).filter(row => row.length > 1);
+    const rows = data.split('\n').map((row) => row.split(',')).filter((row) => row.length > 1);
 
     if (rows.length <= 1) {
       throw new Error('No valid student data found in the database');
