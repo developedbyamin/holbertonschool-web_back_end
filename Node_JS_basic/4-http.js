@@ -7,11 +7,11 @@ const app = http.createServer((req, res) => {
 });
 
 const PORT = 1245;
-
 const server = app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
 
+// Handle server shutdown
 process.on('SIGINT', () => {
   console.log('Received SIGINT. Shutting down gracefully');
   server.close(() => {
@@ -19,3 +19,5 @@ process.on('SIGINT', () => {
     process.exit(0);
   });
 });
+
+module.exports = app;
