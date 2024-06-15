@@ -33,7 +33,7 @@ function countStudents(filePath) {
       const csStudentsNamesString = csStudentsNames.join(', ');
       const sweStudentsNamesString = sweStudentsNames.join(', ');
 
-      const dataN = `Number of students: ${totalStudents}\nNumber of students in CS: ${csStudents}. List: ${csStudentsNamesString}\nNumber of students in SWE: ${totalStudents - csStudents}. List: ${sweStudentsNamesString}`
+      const dataN = `Number of students: ${totalStudents}\nNumber of students in CS: ${csStudents}. List: ${csStudentsNamesString}\nNumber of students in SWE: ${totalStudents - csStudents}. List: ${sweStudentsNamesString}`;
       console.log(dataN);
       return dataN;
     })
