@@ -35,7 +35,6 @@ function countStudents(filePath) {
 
       const dataN = `Number of students: ${totalStudents}\nNumber of students in CS: ${csStudents}. List: ${csStudentsNamesString}\nNumber of students in SWE: ${totalStudents - csStudents}. List: ${sweStudentsNamesString}`;
       console.log(dataN);
-      return dataN;
     })
     .catch(() => {
       throw new Error('Cannot load the database');
