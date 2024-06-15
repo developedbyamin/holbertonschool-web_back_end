@@ -25,6 +25,7 @@ const app = http.createServer((req, res) => {
 
     countStudents(absolutePath)
       .then((data) => {
+        res.statusCode = 200;
         res.end(data);
       })
       .catch((err) => {
