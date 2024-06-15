@@ -33,16 +33,12 @@ function countStudents(filePath) {
       const csStudentsNamesString = csStudentsNames.join(', ');
       const sweStudentsNamesString = sweStudentsNames.join(', ');
 
-      const result = [
-        `Number of students: ${totalStudents}`,
-        `Number of students in CS: ${csStudents}. List: ${csStudentsNamesString}`,
-        `Number of students in SWE: ${totalStudents - csStudents}. List: ${sweStudentsNamesString}`,
-      ].join('\n');
-
-      return result;
+      const dataN = `Number of students: ${totalStudents}\nNumber of students in CS: ${csStudents}. List: ${csStudentsNamesString}\nNumber of students in SWE: ${totalStudents - csStudents}. List: ${sweStudentsNamesString}`
+      console.log(dataN);
+      return dataN;
     })
-    .catch((error) => {
-      throw new Error(`Cannot load the database: ${error.message}`);
+    .catch(() => {
+      throw new Error('Cannot load the database');
     });
 }
 
