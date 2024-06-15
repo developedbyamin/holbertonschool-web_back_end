@@ -23,8 +23,8 @@ function countStudents(filePath1) {
         sweStudentsNames.push(rows[i][0]);
       }
     }
-    const csStudentsNamesString = csStudentsNames.join(' ');
-    const sweStudentsNamesString = sweStudentsNames.join(' ');
+    const csStudentsNamesString = csStudentsNames.join(', ');
+    const sweStudentsNamesString = sweStudentsNames.join(', ');
     process.stdout.write(`Number of students: ${totalStudents}\nNumber of students in CS: ${csStudents}. List: ${csStudentsNamesString}\nNumber of students in SWE: ${totalStudents - csStudents}. List: ${sweStudentsNamesString}\n`);
   });
 }
