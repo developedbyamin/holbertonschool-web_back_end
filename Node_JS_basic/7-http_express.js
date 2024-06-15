@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
+
 const app = express();
 
 // Function to count students and categorize them by field
@@ -62,7 +63,7 @@ app.get('/students', async (req, res) => {
 
 const PORT = 1245;
 app.listen(PORT, () => {
-  console.log(`Server is running and listening on port ${PORT}`);
+  // console.log(`Server is running and listening on port ${PORT}`);
 });
 
 module.exports = app;
