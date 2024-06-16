@@ -1,13 +1,16 @@
 {
-    "name": "your-project-name",
-    "version": "1.0.0",
-    "description": "Your project description",
-    "scripts": {
-        "test": "mocha 0-calcul.test.js"
-    },
-    "author": "Your Name",
-    "license": "MIT",
-    "devDependencies": {
-        "mocha": "^10.4.0"
-    }
+  "name": "task_0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "0-calcul.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
+    "sinon": "^14.0.0"
+  }
 }
