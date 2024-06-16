@@ -1,45 +1,48 @@
 import readDatabase from '../utils';
 
 class StudentsController {
-  static getAllStudents(req, res) {
-    const filePath = '/home/amin/Documents/Programming/HolbertonSchool/holbertonschool-web_back_end/Node_JS_basic/database.csv'; // Define filePath appropriately
+  static getAllStudents(request, response, DATABASE) {
+    readDatabase(DATABASE)
+      .then((fields) => {
+        const students = [];
+        // let count = 0;
+        let msg;
 
-    readDatabase(filePath)
-      .then((database) => {
-        let response = 'This is the list of our students\n';
-        const fields = Object.keys(database).sort(); // Sort fields alphabetically
+        // for (const key of Object.keys(fields)) {
+        //   count += fields[key].length;
+        // }
 
-        fields.forEach((field) => {
-          const students = database[field];
-          response += `Number of students in ${field}: ${students.length}. List: ${students.join(', ')}\n`;
-        });
+        // students.push(`Number of students: ${count}`);
+        students.push('This is the list of our students');
 
-        res.status(200).send(response);
+        for (const key of Object.keys(fields)) {
+          msg = `Number of students in ${key}: ${
+            fields[key].length
+          }. List: ${fields[key].join(', ')}`;
+
+          students.push(msg);
+        }
+        response.send(200, `${students.join('\n')}`);
       })
-      .catch((error) => {
-        console.error('Error reading database:', error);
-        res.status(500).send('Cannot load the database');
+      .catch(() => {
+        response.send(500, 'Cannot load the database');
       });
   }
 
-  static getAllStudentsByMajor(req, res) {
-    const { major } = req.params;
-    const filePath = '/home/amin/Documents/Programming/HolbertonSchool/holbertonschool-web_back_end/Node_JS_basic/database.csv'; // Define filePath appropriately
+  static getAllStudentsByMajor(request, response, DATABASE) {
+    const { major } = request.params;
 
     if (major !== 'CS' && major !== 'SWE') {
-      return res.status(500).send('Major parameter must be CS or SWE');
+      response.send(500, 'Major parameter must be CS or SWE');
+    } else {
+      readDatabase(DATABASE)
+        .then((fields) => {
+          const students = fields[major];
+
+          response.send(200, `List: ${students.join(', ')}`);
+        })
+        .catch(() => response.send(500, 'Cannot load the database'));
     }
-
-    return readDatabase(filePath)
-      .then((database) => {
-        const students = database[major] || [];
-
-        res.status(200).send(`List: ${students.join(', ')}`);
-      })
-      .catch((error) => {
-        console.error('Error reading database:', error);
-        res.status(500).send('Cannot load the database');
-      });
   }
 }
 

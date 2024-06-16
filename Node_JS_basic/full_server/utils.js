@@ -1,36 +1,34 @@
-import fs from 'fs';
-import csvParser from 'csv-parser';
+const fs = require('fs');
 
-/**
- * Reads the database asynchronously from a CSV file.
- * @param {string} filePath - Path to the CSV file.
- * @returns {Promise<Object>}
- *
- */
-const readDatabase = (filePath) => new Promise((resolve, reject) => {
-  const database = {
-    CS: [],
-    SWE: [],
-  };
-
-  fs.createReadStream(filePath)
-    .pipe(csvParser({
-      mapHeaders: ({ header }) => header.toLowerCase().trim(), // Trim and lowercase headers
-    }))
-    .on('data', (row) => {
-      const { firstname, field } = row;
-      if (field === 'CS') {
-        database.CS.push(firstname);
-      } else if (field === 'SWE') {
-        database.SWE.push(firstname);
+function readDatabase(path) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, 'utf8', (err, data) => {
+      if (err) {
+        reject(Error(err));
+        return;
       }
-    })
-    .on('end', () => {
-      resolve(database);
-    })
-    .on('error', (error) => {
-      reject(error);
-    });
-});
+      const content = data.toString().split('\n');
 
-export default readDatabase; // Export readDatabase as named export
+      let students = content.filter((item) => item);
+
+      students = students.map((item) => item.split(','));
+
+      const fields = {};
+      for (const i in students) {
+        if (i !== 0) {
+          if (!fields[students[i][3]]) fields[students[i][3]] = [];
+
+          fields[students[i][3]].push(students[i][0]);
+        }
+      }
+
+      delete fields.field;
+
+      resolve(fields);
+
+      //   return fields;
+    });
+  });
+}
+
+export default readDatabase;
