@@ -1,0 +1,20 @@
+{
+  "name": "full_server",
+  "version": "1.0.0",
+  "description": "A full server using ES6 and Babel",
+  "main": "server.js",
+  "scripts": {
+    "dev": "npx babel-node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "csv-parser": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/node": "^7.14.7",
+    "@babel/preset-env": "^7.14.7"
+  },
+  "author": "",
+  "license": "ISC"
+}
